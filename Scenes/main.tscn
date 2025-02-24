@@ -10,15 +10,15 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jsmte"]
 shader = ExtResource("9_lhthu")
-shader_parameter/alpha = 0.01
-shader_parameter/tint = Color(0.3621, 0.45577, 0.51, 1)
+shader_parameter/alpha = 0.02
+shader_parameter/tint = Color(4.81308e-08, 0.314989, 0.464377, 1)
 
 [sub_resource type="Environment" id="Environment_3myi8"]
 background_mode = 3
 glow_enabled = true
 glow_intensity = 1.16
 glow_strength = 0.95
-glow_bloom = 0.15
+glow_bloom = 0.1
 glow_blend_mode = 1
 
 [node name="main" type="Node2D"]
@@ -31,6 +31,8 @@ offset_bottom = 512.0
 unique_name_in_owner = true
 own_world_3d = true
 handle_input_locally = false
+msaa_2d = 3
+use_taa = true
 render_target_clear_mode = 2
 render_target_update_mode = 4
 script = ExtResource("1_a3x82")

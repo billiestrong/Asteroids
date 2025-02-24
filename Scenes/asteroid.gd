@@ -51,7 +51,7 @@ func _on_area_entered(area):
 		area.owner.queue_free()
 		on_destroy()
 		
-	if area is Bullet or area is Ufo:
+	if area is Bullet:
 		area.queue_free()
 		on_destroy()
 

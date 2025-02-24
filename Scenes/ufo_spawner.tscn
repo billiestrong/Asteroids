@@ -1,8 +1,156 @@
-[gd_scene load_steps=6 format=3 uid="uid://cb0pyfagw6lwm"]
+[gd_scene load_steps=12 format=3 uid="uid://dvl2ninxmuj2o"]
 
-[ext_resource type="Script" path="res://Scenes/UfoSpawner.gd" id="1_w6ldj"]
-[ext_resource type="PackedScene" uid="uid://ns6bm4d4bbma" path="res://Scenes/ufo.tscn" id="2_j4cri"]
-[ext_resource type="Script" path="res://Scenes/ufoTimer.gd" id="3_lpi0n"]
+[ext_resource type="PackedScene" uid="uid://dc5fn48r1ocpu" path="res://Scenes/bullet.tscn" id="1_tvrtx"]
+[ext_resource type="PackedScene" uid="uid://cejkgj3dg6tvx" path="res://explosion.tscn" id="2_vf0rf"]
+[ext_resource type="AudioStream" uid="uid://cko75r4j07fax" path="res://Assets/audio/ufo_shot.ogg" id="3_ywa80"]
+
+[sub_resource type="GDScript" id="GDScript_boqg0"]
+script/source = "extends Node
+
+@export var ufo_scene: PackedScene
+@onready var timer = $Timer as UfoTimer
+@onready var audio_player: AudioStreamPlayer = $AudioStreamPlayer
+
+@onready var top_path = $PathTopLeftRight/PathToFollow
+@onready var bottom_path = $PathBottomRightLeft/PathToFollow
+
+func _ready():
+	timer.timeout.connect(spawn_ufo)
+	timer.start()
+	
+	
+func spawn_ufo():
+	var ufo = ufo_scene.instantiate() as Ufo
+	var path_to_follow = top_path if randf() > 0.5 else bottom_path as  PathFollow2D
+	if(path_to_follow.get_child_count() != 0):
+		return
+	path_to_follow.progress = 0
+	ufo.ufo_destroyed.connect(on_ufo_destroyed)
+	ufo.path = path_to_follow
+	path_to_follow.add_child(ufo)
+	timer.setup_timer()
+	timer.start()
+	
+func on_ufo_destroyed():
+	audio_player.play()
+	
+"
+
+[sub_resource type="GDScript" id="GDScript_pkhe6"]
+script/source = "class_name Ufo
+
+extends Area2D
+
+signal ufo_destroyed
+
+@onready var explosion_particles = $ExplosionParticles
+@onready var shooting_timer = $ShootingTimer
+@onready var audio_player: AudioStreamPlayer = $AudioStreamPlayer
+
+@export var bullet_scene: PackedScene
+@export var path: PathFollow2D = null
+var current_point = 0
+var speed = 300
+var look_ahead = 5
+var visibility_counts = 0
+var can_shoot = false
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+#	path.progress = .5
+	shooting_timer.timeout.connect(shoot)
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	if path == null:
+		return
+	var progress = delta * speed;
+	path.progress += progress
+
+func shoot():
+	if !can_shoot:
+		return
+	audio_player.play()
+	var bullet = bullet_scene.instantiate() as Bullet
+	bullet.set_collision_layer_value(2, 0)
+	bullet.set_collision_layer_value(5, 1)
+	
+	get_node(\"../../../SubViewportContainer/SubViewport\") .add_child(bullet)
+	bullet.position = Vector2(global_position)
+	bullet.direction = get_random_shot_direction()
+
+
+func _on_area_entered(area):
+	if area is Bullet:
+		ufo_destroyed.emit()
+		queue_free()
+		area.queue_free()
+		explosion_particles.emitting = true
+		explosion_particles.reparent(get_node(\"../../../SubViewportContainer/SubViewport\"))
+		
+
+func get_random_shot_direction():
+	var node_y = self.get_global_transform().origin.y
+	var screen_height = get_viewport().get_visible_rect().size.y 
+	# is node in upper half of the screen
+	var should_shot_down = node_y <= screen_height / 2
+	
+	if should_shot_down:
+		var angle = deg_to_rad(randf_range(45, 135))
+		return Vector2(cos(angle), sin(angle))
+	else:
+		var angle = deg_to_rad(randf_range(225, 315))
+		return Vector2(cos(angle), sin(angle))
+
+func _on_visible_on_screen_notifier_2d_screen_entered():
+
+	visibility_counts += 1
+	if visibility_counts == 1:
+		can_shoot = true
+	else:
+		can_shoot = false
+		
+	if(visibility_counts == 2):
+		queue_free()
+"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_8363y"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_gdli3"]
+radius = 8.34
+height = 60.67
+
+[sub_resource type="PackedScene" id="PackedScene_ihyqy"]
+_bundled = {
+"conn_count": 2,
+"conns": PackedInt32Array(0, 0, 20, 19, 2, 0, 0, 5, 0, 22, 21, 2, 0, 0),
+"editable_instances": [],
+"names": PackedStringArray("Ufo", "collision_layer", "collision_mask", "script", "bullet_scene", "Area2D", "Sprite2D", "texture", "CollisionShape2D", "position", "rotation", "shape", "ExplosionParticles", "ShootingTimer", "autostart", "Timer", "VisibleOnScreenNotifier2D", "AudioStreamPlayer", "stream", "_on_area_entered", "area_entered", "_on_visible_on_screen_notifier_2d_screen_entered", "screen_entered"),
+"node_count": 7,
+"node_paths": [],
+"nodes": PackedInt32Array(-1, -1, 5, 0, -1, 4, 1, 0, 2, 1, 3, 2, 4, 3, 0, 0, 0, 6, 6, -1, 1, 7, 4, 0, 0, 0, 8, 8, -1, 3, 9, 5, 10, 6, 11, 7, 0, 0, 0, 2147483647, 12, 8, 1, 9, 9, 0, 0, 0, 15, 13, -1, 1, 14, 10, 0, 0, 0, 16, 16, -1, 0, 0, 0, 0, 17, 17, -1, 1, 18, 11, 0),
+"variants": [8, 7, SubResource("GDScript_pkhe6"), ExtResource("1_tvrtx"), SubResource("CompressedTexture2D_8363y"), Vector2(0, 3), 1.5708, SubResource("CapsuleShape2D_gdli3"), ExtResource("2_vf0rf"), Vector2(0, 0), true, ExtResource("3_ywa80")],
+"version": 3
+}
+
+[sub_resource type="GDScript" id="GDScript_nnceu"]
+script/source = "class_name  UfoTimer
+
+extends Timer
+
+@export var min_time = 20
+@export var max_time = 40 
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	setup_timer()
+
+
+func setup_timer():
+	var timeout_value = randi_range(min_time, max_time)
+	self.wait_time = timeout_value
+	self.start()
+	
+"
 
 [sub_resource type="Curve2D" id="Curve2D_86jsr"]
 _data = {
@@ -17,12 +165,12 @@ _data = {
 point_count = 7
 
 [node name="UfoSpawner" type="Node"]
-script = ExtResource("1_w6ldj")
-ufo_scene = ExtResource("2_j4cri")
+script = SubResource("GDScript_boqg0")
+ufo_scene = SubResource("PackedScene_ihyqy")
 
 [node name="Timer" type="Timer" parent="."]
 one_shot = true
-script = ExtResource("3_lpi0n")
+script = SubResource("GDScript_nnceu")
 min_time = 5
 max_time = 15
 

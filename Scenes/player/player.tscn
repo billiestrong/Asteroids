@@ -1,8 +1,8 @@
 [gd_scene load_steps=12 format=3 uid="uid://dmpkmummnny4l"]
 
 [ext_resource type="Script" path="res://Scenes/player/player_movement.gd" id="1_8tgk0"]
-[ext_resource type="Texture2D" uid="uid://dkysw8hkcyfeg" path="res://Assets/EngineThrottle.png" id="2_moaqa"]
-[ext_resource type="Texture2D" uid="uid://teovnlysqnp4" path="res://Assets/Player.png" id="2_q8sdq"]
+[ext_resource type="Texture2D" uid="uid://bdjasu01prjha" path="res://Assets/EngineThrottle.png" id="2_moaqa"]
+[ext_resource type="Texture2D" uid="uid://dpgegn21orns4" path="res://Assets/Player.png" id="2_q8sdq"]
 [ext_resource type="Script" path="res://Scenes/player/player_shooting.gd" id="3_bfkh2"]
 [ext_resource type="PackedScene" uid="uid://dc5fn48r1ocpu" path="res://Scenes/bullet.tscn" id="4_jcp15"]
 [ext_resource type="PackedScene" uid="uid://or5fpjimvg2h" path="res://Scenes/utils/screen_bounds_movement.tscn" id="5_3san5"]

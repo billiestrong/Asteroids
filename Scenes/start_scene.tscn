@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://Scenes/start_scene.gd" id="1_8bye0"]
 [ext_resource type="PackedScene" uid="uid://b1jtwgwf8m45f" path="res://Scenes/asteroids_spawner.tscn" id="1_tykwt"]
-[ext_resource type="PackedScene" uid="uid://cb0pyfagw6lwm" path="res://Scenes/ufo_spawner.tscn" id="2_ab0lh"]
+[ext_resource type="PackedScene" uid="uid://dvl2ninxmuj2o" path="res://Scenes/ufo_spawner.tscn" id="2_ab0lh"]
 [ext_resource type="FontFile" uid="uid://cfvyr5jhxrdch" path="res://Assets/font/joystix monospace.otf" id="3_imf3x"]
 
 [node name="StartScene" type="Node2D"]

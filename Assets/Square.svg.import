@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://e18idkqyxvxn"
-path="res://.godot/imported/Lives.png-14e5e1460cc0d3e182c8d1b55d176cd2.ctex"
+uid="uid://b6njohoke18xf"
+path="res://.godot/imported/Square.svg-9c8a92d1bcebe60121d55ff07732e5dd.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Lives.png"
-dest_files=["res://.godot/imported/Lives.png-14e5e1460cc0d3e182c8d1b55d176cd2.ctex"]
+source_file="res://Assets/Square.svg"
+dest_files=["res://.godot/imported/Square.svg-9c8a92d1bcebe60121d55ff07732e5dd.ctex"]
 
 [params]
 
@@ -32,3 +32,6 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
+svg/scale=1.0
+editor/scale_with_editor_scale=false
+editor/convert_colors_with_editor_theme=false

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bk2du3api3s56"
-path="res://.godot/imported/ufo.png-0ed60c48f14ed1e40dbb802029d43c76.ctex"
+uid="uid://b4cgqh8ru6abo"
+path="res://.godot/imported/Player.svg-3288f7111596075babc97b98de779fc6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/ufo.png"
-dest_files=["res://.godot/imported/ufo.png-0ed60c48f14ed1e40dbb802029d43c76.ctex"]
+source_file="res://Assets/Player.svg"
+dest_files=["res://.godot/imported/Player.svg-3288f7111596075babc97b98de779fc6.ctex"]
 
 [params]
 
@@ -32,3 +32,6 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
+svg/scale=1.0
+editor/scale_with_editor_scale=false
+editor/convert_colors_with_editor_theme=false
