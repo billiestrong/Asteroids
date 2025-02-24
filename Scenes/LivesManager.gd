@@ -21,7 +21,7 @@ func decrease_lifes():
 	if lifes != 0:
 		var player = player_scene.instantiate() as Player
 		player.on_player_died.connect(decrease_lifes)
-		get_tree().root.get_node("main").add_child(player)
+		get_node("../../../SubViewportContainer/SubViewport").add_child(player)
 		player.global_position = player_start_position
 		player.start_invincibility()
 		

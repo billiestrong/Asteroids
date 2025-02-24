@@ -1,33 +1,68 @@
-[gd_scene load_steps=8 format=3 uid="uid://cfksac6m3avtj"]
+[gd_scene load_steps=10 format=3 uid="uid://cfksac6m3avtj"]
 
 [ext_resource type="PackedScene" uid="uid://dmpkmummnny4l" path="res://Scenes/player/player.tscn" id="1_1l3r8"]
+[ext_resource type="Script" path="res://Scenes/auto_scale_sub_viewport.gd" id="1_a3x82"]
 [ext_resource type="PackedScene" uid="uid://b1jtwgwf8m45f" path="res://Scenes/asteroids_spawner.tscn" id="2_vjew4"]
 [ext_resource type="AudioStream" uid="uid://b0eog0sxl6nyi" path="res://Assets/audio/explosion.ogg" id="3_b1xuv"]
-[ext_resource type="PackedScene" uid="uid://cb0pyfagw6lwm" path="res://Scenes/ufo_spawner.tscn" id="3_vsxj3"]
-[ext_resource type="AudioStream" uid="uid://bsytiod4cqj87" path="res://Assets/audio/ufo_hit.ogg" id="5_nw4kf"]
 [ext_resource type="Script" path="res://Scenes/LivesManager.gd" id="7_nupc8"]
 [ext_resource type="PackedScene" uid="uid://c2vwf0vehxr6k" path="res://Scenes/ui.tscn" id="8_bnbbp"]
+[ext_resource type="Shader" path="res://Scenes/main.gdshader" id="9_lhthu"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jsmte"]
+shader = ExtResource("9_lhthu")
+shader_parameter/alpha = 0.01
+shader_parameter/tint = Color(0.3621, 0.45577, 0.51, 1)
+
+[sub_resource type="Environment" id="Environment_3myi8"]
+background_mode = 3
+glow_enabled = true
+glow_intensity = 1.16
+glow_strength = 0.95
+glow_bloom = 0.15
+glow_blend_mode = 1
 
 [node name="main" type="Node2D"]
 
-[node name="Player" parent="." instance=ExtResource("1_1l3r8")]
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+offset_right = 512.0
+offset_bottom = 512.0
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+unique_name_in_owner = true
+own_world_3d = true
+handle_input_locally = false
+render_target_clear_mode = 2
+render_target_update_mode = 4
+script = ExtResource("1_a3x82")
+
+[node name="Player" parent="SubViewportContainer/SubViewport" instance=ExtResource("1_1l3r8")]
 position = Vector2(1194, 580)
 
-[node name="AsteroidsSpawner" parent="." instance=ExtResource("2_vjew4")]
-count = 4
-
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="AsteroidsSpawner"]
-stream = ExtResource("3_b1xuv")
-
-[node name="UfoSpawner" parent="." instance=ExtResource("3_vsxj3")]
-
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="UfoSpawner"]
-stream = ExtResource("5_nw4kf")
-
-[node name="LifesManager" type="Node" parent="."]
+[node name="LifesManager" type="Node" parent="SubViewportContainer/SubViewport"]
 script = ExtResource("7_nupc8")
 
-[node name="UI" parent="." instance=ExtResource("8_bnbbp")]
+[node name="UI" parent="SubViewportContainer/SubViewport" instance=ExtResource("8_bnbbp")]
+visible = false
 
-[node name="ExplosionAudioPlayer" type="AudioStreamPlayer" parent="."]
+[node name="ExplosionAudioPlayer" type="AudioStreamPlayer" parent="SubViewportContainer/SubViewport"]
 stream = ExtResource("3_b1xuv")
+
+[node name="AsteroidsSpawner" parent="SubViewportContainer/SubViewport" instance=ExtResource("2_vjew4")]
+count = 4
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="SubViewportContainer/SubViewport/AsteroidsSpawner"]
+stream = ExtResource("3_b1xuv")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="SubViewportContainer/SubViewport"]
+follow_viewport_enabled = true
+
+[node name="ColorRect" type="ColorRect" parent="SubViewportContainer/SubViewport/CanvasLayer"]
+material = SubResource("ShaderMaterial_jsmte")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_3myi8")

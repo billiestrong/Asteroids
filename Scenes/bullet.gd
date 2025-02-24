@@ -4,7 +4,7 @@ extends Area2D
 
 var direction: Vector2
 
-@export var bullet_speed = 700
+@export var bullet_speed = 400
 
 func _process(delta):
 	position += direction * bullet_speed * delta

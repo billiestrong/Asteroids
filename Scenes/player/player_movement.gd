@@ -4,8 +4,8 @@ extends CharacterBody2D
 
 signal on_player_died
 
-@export var  max_speed: float = 10
-@export var rotation_speed: float = 3.5
+@export var  max_speed: float = 3
+@export var rotation_speed: float = 2
 @export var velocity_damping_factor = .5
 @export var linear_acceleration = 200
 
@@ -85,7 +85,7 @@ func _on_area_2d_area_entered(area):
 		queue_free()
 		area.queue_free()
 		explosion_particles.emitting = true
-		explosion_particles.reparent(get_tree().root)
+		explosion_particles.reparent(get_node("../../../SubViewportContainer/SubViewport"))
 	
 func start_invincibility():
 	is_invincible = true
@@ -105,5 +105,3 @@ func stop_invincibility():
 	blinking_timer.stop()
 	invincibility_timer.stop()
 	
-
-

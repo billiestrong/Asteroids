@@ -26,7 +26,8 @@ func _ready():
 
 func spawn_asteroid(size: Utils.AsteroidSize, position: Vector2):
 	var asteroid = asteroid_scene.instantiate() as Asteroid
-	get_tree().root.add_child.call_deferred(asteroid)
+	#get_tree().root.add_child.call_deferred(asteroid)
+	get_node("../../../SubViewportContainer/SubViewport").add_child.call_deferred(asteroid)
 	asteroid.size = size
 	asteroid.global_position = position
 	asteroid.on_asteroid_destroyed.connect(asteroid_destroyed)

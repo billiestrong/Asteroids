@@ -43,7 +43,7 @@ func _process(delta):
 		
 func emit_explosion():
 	explosion_particles.emitting = true
-	explosion_particles.reparent(get_tree().root)
+	explosion_particles.reparent(get_node("../../../SubViewportContainer/SubViewport"))
 
 func _on_area_entered(area):
 	if area.owner is Player and (area.owner as Player).is_invincible == false:

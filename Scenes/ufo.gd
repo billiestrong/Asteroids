@@ -36,7 +36,7 @@ func shoot():
 	bullet.set_collision_layer_value(2, 0)
 	bullet.set_collision_layer_value(5, 1)
 	
-	get_tree().root.add_child(bullet)
+	get_node("../../../SubViewportContainer/SubViewport") .add_child(bullet)
 	bullet.position = Vector2(global_position)
 	bullet.direction = get_random_shot_direction()
 
@@ -47,7 +47,7 @@ func _on_area_entered(area):
 		queue_free()
 		area.queue_free()
 		explosion_particles.emitting = true
-		explosion_particles.reparent(get_tree().root)
+		explosion_particles.reparent(get_node("../../../SubViewportContainer/SubViewport"))
 		
 
 func get_random_shot_direction():
