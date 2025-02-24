@@ -10,8 +10,8 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jsmte"]
 shader = ExtResource("9_lhthu")
-shader_parameter/alpha = 0.02
-shader_parameter/tint = Color(4.81308e-08, 0.314989, 0.464377, 1)
+shader_parameter/alpha = 0.01
+shader_parameter/tint = Color(0, 0.44895, 0.652426, 1)
 
 [sub_resource type="Environment" id="Environment_3myi8"]
 background_mode = 3
